@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~    Copyright 2025 Nacho Brito
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -20,7 +36,16 @@
     <micronaut.aot.enabled>false</micronaut.aot.enabled>
     <micronaut.aot.packageName>es.nachobrito.aot.generated</micronaut.aot.packageName>
     <micronaut.runtime>netty</micronaut.runtime>
-    <exec.mainClass>es.nachobrito.Application</exec.mainClass>
+    <exec.mainClass>es.nachobrito.multitenant.Application</exec.mainClass>
+    <!-- Server code generation -->
+    <micronaut.openapi.generate.server>true</micronaut.openapi.generate.server>
+    <micronaut.openapi.definition>src/main/resources/api.yaml</micronaut.openapi.definition>
+    <micronaut.openapi.api.package.name>es.nachobrito.multitenant.application.rest</micronaut.openapi.api.package.name>
+    <micronaut.openapi.model.package.name>es.nachobrito.multitenant.application.rest</micronaut.openapi.model.package.name>
+    <micronaut.openapi.invoker.package.name>es.nachobrito.multitenant.application.rest</micronaut.openapi.invoker.package.name>
+    <micronaut.openapi.use.reactive>false</micronaut.openapi.use.reactive>
+    <micronaut.openapi.server.use.auth>true</micronaut.openapi.server.use.auth>
+
   </properties>
 
   <repositories>
@@ -45,6 +70,16 @@
       <groupId>io.micronaut.serde</groupId>
       <artifactId>micronaut-serde-jackson</artifactId>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.validation</groupId>
+      <artifactId>jakarta.validation-api</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+            <groupId>io.micronaut.security</groupId>
+            <artifactId>micronaut-security-jwt</artifactId>
+            <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -83,6 +118,13 @@
         <groupId>io.micronaut.maven</groupId>
         <artifactId>micronaut-maven-plugin</artifactId>
         <configuration>
+          <aotDependencies>
+              <dependency>
+                  <groupId>io.micronaut.security</groupId>
+                  <artifactId>micronaut-security-aot</artifactId>
+                  <version>${micronaut.security.version}</version>
+              </dependency>
+          </aotDependencies>
           <configFile>aot-${packaging}.properties</configFile>
         </configuration>
       </plugin>
