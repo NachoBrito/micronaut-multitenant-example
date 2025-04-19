@@ -14,21 +14,37 @@
  *    limitations under the License.
  */
 
-package es.nachobrito.multitenant.domain.model.product;
+package es.nachobrito.multitenant.domain.model;
 
-import es.nachobrito.multitenant.domain.model.EntityRepository;
 import java.util.List;
+import java.util.Optional;
 
 /**
+ * Defines generic interface for entity repositories
+ *
  * @author nacho
  */
-public interface ProductRepository extends EntityRepository<Product, ProductId> {
+public interface EntityRepository<E extends Entity<I>, I> {
 
   /**
-   * Search Products matching the provided search parameters
+   * Add one or more new objects of type T to the store.
    *
-   * @param search parameters for product search
-   * @return the list of products matching the search parameters
+   * @param items objects of type T to add
    */
-  List<Product> search(ProductSearch search);
+  void add(List<E> items);
+
+  /**
+   * Get an item from the store
+   *
+   * @param entityId the value to search the item for
+   * @return the product, if any
+   */
+  Optional<E> get(I entityId);
+
+  /**
+   * Deletes a product in the store, if exists.
+   *
+   * @param entityId the value of the item to remove.
+   */
+  void delete(I entityId);
 }

@@ -16,43 +16,49 @@
 
 package es.nachobrito.multitenant.application.rest;
 
+import es.nachobrito.multitenant.application.ProductService;
+import es.nachobrito.multitenant.domain.model.product.ProductId;
+import io.micronaut.http.annotation.Controller;
 import jakarta.validation.Valid;
-
 import java.util.List;
 import java.util.UUID;
 
 /**
  * @author nacho
  */
-public class ProductController implements ProductApi{
+@Controller
+public class ProductController implements ProductApi {
+  private final ProductService productService;
+  private final ProductMapper productMapper;
 
-    @Override
-    public Product addProduct(Product product) {
-        return null;
-    }
+  public ProductController(ProductService productService, ProductMapper productMapper) {
+    this.productService = productService;
+    this.productMapper = productMapper;
+  }
 
-    @Override
-    public void deleteProduct(UUID productId) {
+  @Override
+  public Product addProduct(Product product) {
+    return null;
+  }
 
-    }
+  @Override
+  public void deleteProduct(UUID productId) {}
 
-    @Override
-    public Product getProductById(UUID productId) {
-        return null;
-    }
+  @Override
+  public Product getProductById(UUID productId) {
+    return productService.getProduct(ProductId.of(productId)).map(productMapper::from).orElse(null);
+  }
 
-    @Override
-    public List<@Valid Product> productSearch(String nameContains) {
-        return List.of();
-    }
+  @Override
+  public List<@Valid Product> productSearch(String nameContains) {
+    return List.of();
+  }
 
-    @Override
-    public Product updateProduct(Product product) {
-        return null;
-    }
+  @Override
+  public Product updateProduct(Product product) {
+    return null;
+  }
 
-    @Override
-    public void updateProductWithForm(UUID productId, String name, String categoryId) {
-
-    }
+  @Override
+  public void updateProductWithForm(UUID productId, String name, String categoryId) {}
 }

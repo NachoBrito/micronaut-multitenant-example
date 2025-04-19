@@ -21,7 +21,7 @@ paths:
       description: Update an existing product by Id
       operationId: updateProduct
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       requestBody:
         description: Update an existent product in the store
         content:
@@ -60,7 +60,7 @@ paths:
       description: Add a new product to the store
       operationId: addProduct
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       requestBody:
         description: Create a new product in the store
         content:
@@ -107,7 +107,7 @@ paths:
           schema:
             type: string
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       responses:
         '200':
           description: successful operation
@@ -136,7 +136,7 @@ paths:
       description: Returns a single product
       operationId: getProductById
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       parameters:
         - name: productId
           in: path
@@ -169,7 +169,7 @@ paths:
       description: ''
       operationId: updateProductWithForm
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       parameters:
         - name: productId
           in: path
@@ -200,11 +200,11 @@ paths:
       description: delete a product
       operationId: deleteProduct
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       parameters:
         - name: productId
           in: path
-          description: Product id to delete
+          description: Product value to delete
           required: true
           schema:
             type: string
@@ -239,7 +239,7 @@ components:
       required:
         - id
         - name
-        - categoryId
+        - category
       type: object
       properties:
         id:
@@ -247,6 +247,5 @@ components:
           format: uuid
         name:
           type: string
-          example: doggie
         category:
           $ref: '#/components/schemas/Category'

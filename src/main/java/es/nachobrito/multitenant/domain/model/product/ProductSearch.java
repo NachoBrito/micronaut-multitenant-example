@@ -21,4 +21,10 @@ import es.nachobrito.multitenant.domain.model.category.CategoryId;
 /**
  * @author nacho
  */
-public record ProductSearch(String name, CategoryId category) {}
+public record ProductSearch(String name, CategoryId category) {
+    public boolean matches(Product product) {
+        var matchesName = name == null || product.getName().contains(name);
+        var matchesCategory = category == null || product.getCategoryId().equals(category);
+        return matchesName || matchesCategory;
+    }
+}

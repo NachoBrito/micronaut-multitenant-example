@@ -16,7 +16,18 @@
 
 package es.nachobrito.multitenant.domain.model.merchant;
 
+import jakarta.validation.constraints.NotNull;
+import java.util.UUID;
+
 /**
  * @author nacho
  */
-public record MerchantId(String value) {}
+public record MerchantId(String value) {
+  public static MerchantId newRandom() {
+    return new MerchantId(UUID.randomUUID().toString());
+  }
+
+  public @NotNull UUID toUuid() {
+    return UUID.fromString(value);
+  }
+}

@@ -14,24 +14,14 @@
  *    limitations under the License.
  */
 
-package es.nachobrito.multitenant.domain.model.product;
-
-import jakarta.validation.constraints.NotNull;
-import java.util.UUID;
+package es.nachobrito.multitenant.domain.model.user;
 
 /**
  * @author nacho
  */
-public record ProductId(String value) {
-  public static ProductId newRandom() {
-    return new ProductId(UUID.randomUUID().toString());
-  }
+public record UserName(String value) {
 
-  public static ProductId of(UUID uuid) {
-    return new ProductId(uuid.toString());
-  }
-
-  public @NotNull UUID toUuid() {
-    return UUID.fromString(value);
+  public boolean contains(String name) {
+    return value.contains(name);
   }
 }

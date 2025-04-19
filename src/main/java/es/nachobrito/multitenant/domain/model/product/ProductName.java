@@ -19,4 +19,9 @@ package es.nachobrito.multitenant.domain.model.product;
 /**
  * @author nacho
  */
-public record ProductName(String value) {}
+public record ProductName(String value) {
+
+    public boolean contains(String name) {
+        return value.contains(name);
+    }
+}

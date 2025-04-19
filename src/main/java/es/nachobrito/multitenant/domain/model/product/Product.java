@@ -16,61 +16,87 @@
 
 package es.nachobrito.multitenant.domain.model.product;
 
+import es.nachobrito.multitenant.domain.model.Entity;
+import es.nachobrito.multitenant.domain.model.category.Category;
 import es.nachobrito.multitenant.domain.model.category.CategoryId;
+import es.nachobrito.multitenant.domain.model.merchant.Merchant;
 import es.nachobrito.multitenant.domain.model.merchant.MerchantId;
-
 import java.util.Objects;
 
 /**
  * @author nacho
  */
-public class Product {
-    private ProductId id;
-    private MerchantId merchantId;
-    private CategoryId categoryId;
-    private ProductName name;
+public class Product implements Entity<ProductId> {
+  private final ProductId id;
+  private MerchantId merchantId;
+  private CategoryId categoryId;
+  private ProductName name;
 
-    public Product(ProductId id) {
-        this.id = id;
-    }
+  private Product(ProductId id) {
+    this.id = id;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return Objects.equals(getId(), product.getId());
-    }
+  public static Product with(
+      ProductId productId, Merchant merchantId, ProductName name, Category category) {
+    var product = new Product(productId);
+    product.setMerchantId(merchantId.getId());
+    product.setCategoryId(category.getId());
+    product.setName(name);
+    return product;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) return false;
+    Product product = (Product) o;
+    return Objects.equals(getId(), product.getId());
+  }
 
-    public ProductId getId() {
-        return id;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(getId());
+  }
 
-    public MerchantId getMerchantId() {
-        return merchantId;
-    }
+  @Override
+  public ProductId getId() {
+    return id;
+  }
 
-    public void setMerchantId(MerchantId merchantId) {
-        this.merchantId = merchantId;
-    }
+  public MerchantId getMerchantId() {
+    return merchantId;
+  }
 
-    public CategoryId getCategoryId() {
-        return categoryId;
-    }
+  public void setMerchantId(MerchantId merchantId) {
+    this.merchantId = merchantId;
+  }
 
-    public void setCategoryId(CategoryId categoryId) {
-        this.categoryId = categoryId;
-    }
+  public CategoryId getCategoryId() {
+    return categoryId;
+  }
 
-    public ProductName getName() {
-        return name;
-    }
+  public void setCategoryId(CategoryId categoryId) {
+    this.categoryId = categoryId;
+  }
 
-    public void setName(ProductName name) {
-        this.name = name;
-    }
+  public ProductName getName() {
+    return name;
+  }
+
+  public void setName(ProductName name) {
+    this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return "Product{"
+        + "id="
+        + id
+        + ", merchantId="
+        + merchantId
+        + ", categoryId="
+        + categoryId
+        + ", name="
+        + name
+        + '}';
+  }
 }

@@ -16,7 +16,18 @@
 
 package es.nachobrito.multitenant.domain.model.category;
 
+import jakarta.validation.constraints.NotNull;
+import java.util.UUID;
+
 /**
  * @author nacho
  */
-public record CategoryId(String id) {}
+public record CategoryId(String value) {
+  public static CategoryId newRandom() {
+    return new CategoryId(UUID.randomUUID().toString());
+  }
+
+  public @NotNull UUID toUuid() {
+    return UUID.fromString(value);
+  }
+}

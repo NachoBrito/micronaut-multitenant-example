@@ -16,40 +16,53 @@
 
 package es.nachobrito.multitenant.domain.model.merchant;
 
+import es.nachobrito.multitenant.domain.model.Entity;
 import java.util.Objects;
 
 /**
  * @author nacho
  */
-public class Merchant {
-  private MerchantId id;
+public class Merchant implements Entity<MerchantId> {
+  private final MerchantId id;
   private MerchantName name;
 
-    public Merchant(MerchantId id) {
-        this.id = id;
-    }
+  private Merchant(MerchantId id) {
+    this.id = id;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Merchant merchant = (Merchant) o;
-        return Objects.equals(getId(), merchant.getId());
-    }
+  public static Merchant with(MerchantId merchantId, MerchantName name) {
+    var merchant = new Merchant(merchantId);
+    merchant.setName(name);
+    return merchant;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) return false;
+    Merchant merchant = (Merchant) o;
+    return Objects.equals(getId(), merchant.getId());
+  }
 
-    public MerchantId getId() {
-        return id;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(getId());
+  }
 
-    public MerchantName getName() {
-        return name;
-    }
+  @Override
+  public MerchantId getId() {
+    return id;
+  }
 
-    public void setName(MerchantName name) {
-        this.name = name;
-    }
+  public MerchantName getName() {
+    return name;
+  }
+
+  public void setName(MerchantName name) {
+    this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return "Merchant{" + "id=" + id + ", name=" + name + '}';
+  }
 }

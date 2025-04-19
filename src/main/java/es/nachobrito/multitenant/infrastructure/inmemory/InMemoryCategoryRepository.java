@@ -14,24 +14,19 @@
  *    limitations under the License.
  */
 
-package es.nachobrito.multitenant.domain.model.product;
+package es.nachobrito.multitenant.infrastructure.inmemory;
 
-import jakarta.validation.constraints.NotNull;
-import java.util.UUID;
+import es.nachobrito.multitenant.domain.model.category.Category;
+import es.nachobrito.multitenant.domain.model.category.CategoryId;
+import es.nachobrito.multitenant.domain.model.category.CategoryRepository;
+import jakarta.inject.Singleton;
+import java.util.*;
 
 /**
+ * In-Memory implementation of the Category Repository
+ *
  * @author nacho
  */
-public record ProductId(String value) {
-  public static ProductId newRandom() {
-    return new ProductId(UUID.randomUUID().toString());
-  }
-
-  public static ProductId of(UUID uuid) {
-    return new ProductId(uuid.toString());
-  }
-
-  public @NotNull UUID toUuid() {
-    return UUID.fromString(value);
-  }
-}
+@Singleton
+public class InMemoryCategoryRepository extends InMemoryEntityRepository<Category, CategoryId>
+    implements CategoryRepository {}

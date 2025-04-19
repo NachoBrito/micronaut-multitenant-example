@@ -16,17 +16,24 @@
 
 package es.nachobrito.multitenant.domain.model.category;
 
+import es.nachobrito.multitenant.domain.model.Entity;
 import java.util.Objects;
 
 /**
  * @author nacho
  */
-public class Category {
-  private CategoryId id;
+public class Category implements Entity<CategoryId> {
+  private final CategoryId id;
   private CategoryName name;
 
   private Category(CategoryId id) {
     this.id = id;
+  }
+
+  public static Category with(CategoryId categoryId, CategoryName name) {
+    var category = new Category(categoryId);
+    category.setName(name);
+    return category;
   }
 
   @Override
@@ -41,6 +48,7 @@ public class Category {
     return Objects.hashCode(getId());
   }
 
+  @Override
   public CategoryId getId() {
     return id;
   }
@@ -51,5 +59,10 @@ public class Category {
 
   public void setName(CategoryName name) {
     this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return "Category{" + "id=" + id + ", name=" + name + '}';
   }
 }

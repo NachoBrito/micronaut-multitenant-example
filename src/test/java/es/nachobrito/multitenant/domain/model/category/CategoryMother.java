@@ -14,24 +14,20 @@
  *    limitations under the License.
  */
 
-package es.nachobrito.multitenant.domain.model.product;
+package es.nachobrito.multitenant.domain.model.category;
 
-import jakarta.validation.constraints.NotNull;
-import java.util.UUID;
+import com.github.javafaker.Faker;
 
 /**
+ * Generates test objects
+ *
+ * @see <a href="https://martinfowler.com/bliki/ObjectMother.html">The ObjectMother pattern</a>
  * @author nacho
  */
-public record ProductId(String value) {
-  public static ProductId newRandom() {
-    return new ProductId(UUID.randomUUID().toString());
-  }
-
-  public static ProductId of(UUID uuid) {
-    return new ProductId(uuid.toString());
-  }
-
-  public @NotNull UUID toUuid() {
-    return UUID.fromString(value);
+public class CategoryMother {
+  public static Category random() {
+    var categoryId = CategoryId.newRandom();
+    var name = new CategoryName(Faker.instance().commerce().department());
+    return Category.with(categoryId, name);
   }
 }
