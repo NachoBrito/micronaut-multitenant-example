@@ -19,7 +19,7 @@ package es.nachobrito.multitenant.infrastructure.inmemory;
 import es.nachobrito.multitenant.domain.model.product.Product;
 import es.nachobrito.multitenant.domain.model.product.ProductId;
 import es.nachobrito.multitenant.domain.model.product.ProductRepository;
-import es.nachobrito.multitenant.domain.model.product.ProductSearch;
+import es.nachobrito.multitenant.domain.model.product.search.ProductSearch;
 import jakarta.inject.Singleton;
 import java.util.*;
 import org.slf4j.Logger;
@@ -31,14 +31,13 @@ import org.slf4j.LoggerFactory;
  * @author nacho
  */
 @Singleton
-public class InMemoryProductRepository extends InMemoryEntityRepository<Product, ProductId> implements ProductRepository {
+public class InMemoryProductRepository extends InMemoryEntityRepository<Product, ProductId>
+    implements ProductRepository {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Override
   public List<Product> search(ProductSearch search) {
     log.info("Searching for products: {}", search);
-    return storage.values().stream()
-        .filter(search::matches)
-        .toList();
+    return storage.values().stream().filter(search::matches).toList();
   }
 }

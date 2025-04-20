@@ -17,6 +17,7 @@
 package es.nachobrito.multitenant.domain.model.product;
 
 import es.nachobrito.multitenant.domain.model.EntityRepository;
+import es.nachobrito.multitenant.domain.model.product.search.ProductSearch;
 import java.util.List;
 
 /**

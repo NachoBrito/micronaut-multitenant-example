@@ -58,7 +58,7 @@ public class AuthenticationClientFilter {
 
     var roles = List.of(ROLE_USER);
     Map<String, Object> attributes =
-        Map.of("merchantId", authenticatedUser.getMerchantId().toString());
+        Map.of("merchantId", authenticatedUser.getMerchantId().value());
     var authorization =
         Authentication.build(authenticatedUser.getUserName().value(), roles, attributes);
     var token = tokenGenerator.generateToken(authorization, _1H_SECONDS);

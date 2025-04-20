@@ -14,17 +14,24 @@
  *    limitations under the License.
  */
 
-package es.nachobrito.multitenant.domain.model.product;
+package es.nachobrito.multitenant.domain.model.product.search;
 
 import es.nachobrito.multitenant.domain.model.category.CategoryId;
+import es.nachobrito.multitenant.domain.model.merchant.MerchantId;
+import es.nachobrito.multitenant.domain.model.product.Product;
 
 /**
  * @author nacho
  */
-public record ProductSearch(String name, CategoryId category) {
-    public boolean matches(Product product) {
-        var matchesName = name == null || product.getName().contains(name);
-        var matchesCategory = category == null || product.getCategoryId().equals(category);
-        return matchesName || matchesCategory;
-    }
+record ProductSearchByNameOrCategory(String name, CategoryId category) implements ProductSearch {
+  public boolean matches(Product product) {
+    var matchesName = name == null || product.getName().contains(name);
+    var matchesCategory = category == null || product.getCategoryId().equals(category);
+    return matchesName || matchesCategory;
+  }
+
+  @Override
+  public ProductSearch withMerchant(MerchantId merchantId) {
+    return new MerchantProductSearchByNameOrCategory(merchantId, this.name, this.category);
+  }
 }
