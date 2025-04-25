@@ -49,6 +49,7 @@ public class ProductRepository
   }
 
   private List<Product> searchByNameOrCategory(ProductSearchByNameAndCategory search) {
+    // Filter by category and name
     if (search.category() != null && search.name() != null) {
       return productJdbcRepository
           .findByCategoryIdAndNameContains(search.category().toUuid(), search.name())
@@ -57,14 +58,14 @@ public class ProductRepository
           .toList();
     }
 
-    // filter by merchantId and category
+    // filter by category
     if (search.category() != null) {
       return productJdbcRepository.findByCategoryId(search.category().toUuid()).stream()
           .map(JdbcProduct::toDomainModel)
           .toList();
     }
 
-    // filter by merchantId and name
+    // filter by name
     return productJdbcRepository.findByNameContains(search.name()).stream()
         .map(JdbcProduct::toDomainModel)
         .toList();
