@@ -14,20 +14,39 @@
  *    limitations under the License.
  */
 
-package es.nachobrito.multitenant.infrastructure.inmemory;
+package es.nachobrito.multitenant.infrastructure.data.user;
 
 import es.nachobrito.multitenant.domain.model.user.User;
 import es.nachobrito.multitenant.domain.model.user.UserId;
-import es.nachobrito.multitenant.domain.model.user.UserRepository;
 import io.micronaut.context.annotation.Requires;
 import jakarta.inject.Singleton;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * In-Memory implementation of the Product Repository
- *
  * @author nacho
  */
 @Singleton
-@Requires(missingBeans = javax.sql.DataSource.class)
-public class InMemoryUserRepository extends InMemoryEntityRepository<User, UserId>
-    implements UserRepository {}
+@Requires(beans = javax.sql.DataSource.class)
+public class UserRepository implements es.nachobrito.multitenant.domain.model.user.UserRepository {
+  private final UserJdbcRepository userJdbcRepository;
+
+  public UserRepository(UserJdbcRepository userJdbcRepository) {
+    this.userJdbcRepository = userJdbcRepository;
+  }
+
+  @Override
+  public void add(List<User> items) {
+    userJdbcRepository.saveAll(items.stream().map(JdbcUser::of).toList());
+  }
+
+  @Override
+  public Optional<User> get(UserId entityId) {
+    return userJdbcRepository.findById(entityId.toUuid()).map(JdbcUser::toDomainModel);
+  }
+
+  @Override
+  public void delete(UserId entityId) {
+    userJdbcRepository.deleteById(entityId.toUuid());
+  }
+}

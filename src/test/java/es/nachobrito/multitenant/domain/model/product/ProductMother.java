@@ -18,7 +18,9 @@ package es.nachobrito.multitenant.domain.model.product;
 
 import com.github.javafaker.Faker;
 import es.nachobrito.multitenant.domain.model.category.Category;
+import es.nachobrito.multitenant.domain.model.category.CategoryMother;
 import es.nachobrito.multitenant.domain.model.merchant.Merchant;
+import es.nachobrito.multitenant.domain.model.merchant.MerchantMother;
 
 /**
  * Generates test objects
@@ -39,5 +41,21 @@ public class ProductMother {
     var productId = ProductId.newRandom();
     var name = new ProductName(Faker.instance().commerce().productName());
     return Product.with(productId, merchant, name, category);
+  }
+
+  public static Product inMerchant1() {
+    return Product.with(
+        new ProductId("2d557797-a4b3-42e9-a15b-b163fb10c7a4"),
+        MerchantMother.merchant1().getId(),
+        new ProductName("Car"),
+        CategoryMother.category1().getId());
+  }
+
+  public static Product inMerchant2() {
+    return Product.with(
+        new ProductId("87982202-54bc-41a8-b239-4d7dad5d70fd"),
+        MerchantMother.merchant2().getId(),
+        new ProductName("Bicycle"),
+        CategoryMother.category1().getId());
   }
 }

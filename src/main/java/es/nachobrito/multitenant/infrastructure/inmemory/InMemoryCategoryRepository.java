@@ -19,6 +19,7 @@ package es.nachobrito.multitenant.infrastructure.inmemory;
 import es.nachobrito.multitenant.domain.model.category.Category;
 import es.nachobrito.multitenant.domain.model.category.CategoryId;
 import es.nachobrito.multitenant.domain.model.category.CategoryRepository;
+import io.micronaut.context.annotation.Requires;
 import jakarta.inject.Singleton;
 import java.util.*;
 
@@ -28,5 +29,6 @@ import java.util.*;
  * @author nacho
  */
 @Singleton
+@Requires(missingBeans = javax.sql.DataSource.class)
 public class InMemoryCategoryRepository extends InMemoryEntityRepository<Category, CategoryId>
     implements CategoryRepository {}

@@ -103,7 +103,12 @@ paths:
           in: query
           description: The name query
           required: true
-          explode: true
+          schema:
+            type: string
+        - name: categoryId
+          in: query
+          description: The category Id
+          required: false
           schema:
             type: string
       security:

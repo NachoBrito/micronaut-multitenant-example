@@ -25,9 +25,11 @@
         </encoder>
     </appender>
 
-    <root level="info">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 
     <logger name="io.micronaut.security" level="TRACE"/>
+    <logger name="io.micronaut.data.query" level="TRACE"/>
+
 </configuration>

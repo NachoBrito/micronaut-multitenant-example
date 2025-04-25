@@ -16,7 +16,6 @@
 
 package es.nachobrito.multitenant.application.rest;
 
-import static io.micronaut.http.HttpHeaders.ACCEPT;
 import static org.junit.jupiter.api.Assertions.*;
 
 import es.nachobrito.multitenant.domain.model.category.Category;
@@ -30,14 +29,15 @@ import es.nachobrito.multitenant.domain.model.product.ProductMother;
 import es.nachobrito.multitenant.domain.model.product.ProductRepository;
 import es.nachobrito.multitenant.domain.model.user.User;
 import es.nachobrito.multitenant.domain.model.user.UserMother;
+import es.nachobrito.multitenant.domain.model.user.UserRepository;
+import es.nachobrito.multitenant.infrastructure.inmemory.InMemoryCategoryRepository;
+import es.nachobrito.multitenant.infrastructure.inmemory.InMemoryMerchantRepository;
 import es.nachobrito.multitenant.infrastructure.inmemory.InMemoryProductRepository;
-import io.micronaut.http.annotation.Header;
-import io.micronaut.http.client.annotation.Client;
+import es.nachobrito.multitenant.infrastructure.inmemory.InMemoryUserRepository;
 import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -67,16 +67,25 @@ class ProductControllerTest {
     return new PreloadedProductRepository(List.of(product1, product2));
   }
 
-  @BeforeEach
-  void beforeEach() {
-    merchantRepository.add(List.of(merchant1, merchant2));
-    authenticationClientFilter.setAuthenticatedUser(user);
-    categoryRepository.add(List.of(category));
+  @MockBean(MerchantRepository.class)
+  MerchantRepository merchantRepository() {
+    return new PreloadedMerchantRepository(List.of(merchant1, merchant2));
+  }
+
+  @MockBean(CategoryRepository.class)
+  CategoryRepository categoryRepository() {
+    return new PreloadedCategoryRepository(List.of(category));
+  }
+
+  @MockBean(UserRepository.class)
+  UserRepository userRepository() {
+    return new PreloadedUserRepository(List.of(user));
   }
 
   @Test
   @DisplayName("Expect that only products in the same Merchant are returned by the API")
   void expectProductsRetrievedById() {
+    authenticationClientFilter.setAuthenticatedUser(user);
     var result1 = apiClient.getProductById(product1.getId().toUuid());
     assertNotNull(result1);
     assertEquals(productMapper.from(product1), result1);
@@ -86,15 +95,40 @@ class ProductControllerTest {
     assertNull(result2);
   }
 
-  @Client("/")
-  @Header(name = ACCEPT, value = "application/vnd.github.v3+json, application/json")
-  private interface ApiClient extends ProductApi {}
+
 
   static class PreloadedProductRepository extends InMemoryProductRepository {
-    PreloadedProductRepository(List<Product> products) {
-      products.forEach(
-          product -> {
-            this.storage.put(product.getId(), product);
+    PreloadedProductRepository(List<Product> items) {
+      items.forEach(
+          item -> {
+            this.storage.put(item.getId(), item);
+          });
+    }
+  }
+
+  static class PreloadedMerchantRepository extends InMemoryMerchantRepository {
+    PreloadedMerchantRepository(List<Merchant> items) {
+      items.forEach(
+          item -> {
+            this.storage.put(item.getId(), item);
+          });
+    }
+  }
+
+  static class PreloadedCategoryRepository extends InMemoryCategoryRepository {
+    PreloadedCategoryRepository(List<Category> items) {
+      items.forEach(
+          item -> {
+            this.storage.put(item.getId(), item);
+          });
+    }
+  }
+
+  static class PreloadedUserRepository extends InMemoryUserRepository {
+    PreloadedUserRepository(List<User> items) {
+      items.forEach(
+          item -> {
+            this.storage.put(item.getId(), item);
           });
     }
   }

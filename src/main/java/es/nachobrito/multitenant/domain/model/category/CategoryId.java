@@ -27,6 +27,10 @@ public record CategoryId(String value) {
     return new CategoryId(UUID.randomUUID().toString());
   }
 
+  public static CategoryId of(UUID uuid) {
+    return new CategoryId(uuid.toString());
+  }
+
   public @NotNull UUID toUuid() {
     return UUID.fromString(value);
   }

@@ -37,10 +37,15 @@ public class Product implements Entity<ProductId> {
   }
 
   public static Product with(
-      ProductId productId, Merchant merchantId, ProductName name, Category category) {
+      ProductId productId, Merchant merchant, ProductName name, Category category) {
+    return with(productId, merchant.getId(), name, category.getId());
+  }
+
+  public static Product with(
+      ProductId productId, MerchantId merchantId, ProductName name, CategoryId categoryId) {
     var product = new Product(productId);
-    product.setMerchantId(merchantId.getId());
-    product.setCategoryId(category.getId());
+    product.setMerchantId(merchantId);
+    product.setCategoryId(categoryId);
     product.setName(name);
     return product;
   }

@@ -14,11 +14,20 @@
  *    limitations under the License.
  */
 
-package es.nachobrito.multitenant.domain.model.category;
-
-import es.nachobrito.multitenant.domain.model.EntityRepository;
+package es.nachobrito.multitenant.application.rest;
 
 /**
  * @author nacho
  */
-public interface CategoryRepository extends EntityRepository<Category, CategoryId> {}
+
+import static io.micronaut.http.HttpHeaders.ACCEPT;
+
+import io.micronaut.http.annotation.Header;
+import io.micronaut.http.client.annotation.Client;
+
+/**
+ * @author nacho
+ */
+@Client("/")
+@Header(name = ACCEPT, value = "application/vnd.github.v3+json, application/json")
+interface ApiClient extends ProductApi {}

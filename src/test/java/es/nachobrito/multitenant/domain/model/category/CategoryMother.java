@@ -30,4 +30,9 @@ public class CategoryMother {
     var name = new CategoryName(Faker.instance().commerce().department());
     return Category.with(categoryId, name);
   }
+
+  public static Category category1() {
+    return Category.with(
+        new CategoryId("98ca0372-4169-4241-aab3-1519956071d7"), new CategoryName("Category 1"));
+  }
 }

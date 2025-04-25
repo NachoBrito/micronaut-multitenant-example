@@ -50,8 +50,10 @@ public class ProductController implements ProductApi {
   }
 
   @Override
-  public List<@Valid Product> productSearch(String nameContains) {
-    return List.of();
+  public List<@Valid Product> productSearch(String nameContains, String categoryId) {
+    return productService.searchProducts(nameContains, categoryId).stream()
+        .map(productMapper::from)
+        .toList();
   }
 
   @Override

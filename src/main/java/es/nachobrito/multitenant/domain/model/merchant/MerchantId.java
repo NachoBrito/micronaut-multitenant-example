@@ -27,6 +27,10 @@ public record MerchantId(String value) {
     return new MerchantId(UUID.randomUUID().toString());
   }
 
+  public static MerchantId of(UUID uuid) {
+    return new MerchantId(uuid.toString());
+  }
+
   public @NotNull UUID toUuid() {
     return UUID.fromString(value);
   }

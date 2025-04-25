@@ -64,12 +64,11 @@ public class AuthenticationClientFilter {
     var token = tokenGenerator.generateToken(authorization, _1H_SECONDS);
     log.info("Token generated: {}", token);
     request.bearerAuth(token.orElseThrow());
-
-    log.info("Request headers:");
     request.getHeaders().asMap().forEach((key, value) -> log.info("{} -> {}", key, value));
   }
 
   public void setAuthenticatedUser(User user) {
+    log.info("Authenticated user for the next request -> {}", user);
     this.authenticatedUser = user;
   }
 }

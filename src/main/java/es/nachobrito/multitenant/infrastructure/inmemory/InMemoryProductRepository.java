@@ -20,6 +20,7 @@ import es.nachobrito.multitenant.domain.model.product.Product;
 import es.nachobrito.multitenant.domain.model.product.ProductId;
 import es.nachobrito.multitenant.domain.model.product.ProductRepository;
 import es.nachobrito.multitenant.domain.model.product.search.ProductSearch;
+import io.micronaut.context.annotation.Requires;
 import jakarta.inject.Singleton;
 import java.util.*;
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ import org.slf4j.LoggerFactory;
  * @author nacho
  */
 @Singleton
+@Requires(missingBeans = javax.sql.DataSource.class)
 public class InMemoryProductRepository extends InMemoryEntityRepository<Product, ProductId>
     implements ProductRepository {
   private final Logger log = LoggerFactory.getLogger(getClass());

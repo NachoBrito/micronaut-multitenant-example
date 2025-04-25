@@ -14,11 +14,15 @@
  *    limitations under the License.
  */
 
-package es.nachobrito.multitenant.domain.model.category;
+package es.nachobrito.multitenant.infrastructure.data.user;
 
-import es.nachobrito.multitenant.domain.model.EntityRepository;
+import io.micronaut.data.jdbc.annotation.JdbcRepository;
+import io.micronaut.data.model.query.builder.sql.Dialect;
+import io.micronaut.data.repository.CrudRepository;
+import java.util.UUID;
 
 /**
  * @author nacho
  */
-public interface CategoryRepository extends EntityRepository<Category, CategoryId> {}
+@JdbcRepository(dialect = Dialect.H2)
+public interface UserJdbcRepository extends CrudRepository<JdbcUser, UUID> {}
